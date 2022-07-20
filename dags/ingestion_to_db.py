@@ -8,4 +8,3 @@ with DAG('db_ingestion') as dag
     load = DummyOperator(task_id = 'load')
     end_workflow = DummyOperator(task_id = 'end_workflow')
 
-    start_workflow >> validate >> prepare >> load >> end_workflow
