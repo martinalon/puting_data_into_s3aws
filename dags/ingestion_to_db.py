@@ -1,5 +1,6 @@
 from airflow.models import DAG
 from airflow.operators.dummy import DummyOperator
+from airflow.utils.dates import days_ago
 
 with DAG('db_ingestion') as dag
     start_workflow = DummyOperator(task_id = 'start_workflow')
