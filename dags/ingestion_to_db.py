@@ -36,7 +36,7 @@ with DAG(
         task_id="validate",
         aws_conn_id="aws_default",
         bucket_name="wizeline-martin-haha",
-        bucket_key="chart-data.csv",
+        bucket_key="datasets/chart-data.csv",
     )
     prepare = PostgresOperator(
         task_id="prepare",
