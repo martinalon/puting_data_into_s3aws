@@ -51,7 +51,7 @@ with DAG(
         """,
     )
     clear = PostgresOperator(
-        task_id="prepare",
+        task_id="clear",
         postgres_conn_id="ml_conn",
         sql=""" DELETE FROM monthly_charts_data""",
     )
