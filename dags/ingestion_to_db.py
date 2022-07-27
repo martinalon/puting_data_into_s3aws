@@ -57,7 +57,7 @@ with DAG(
     # )
     continue_workflow = DummyOperator(task_id="continue_workflow")
     branch = BranchSQLOperator(
-        task_id="is empty",
+        task_id="is_empty",
         conn_id="ml_conn",
         sql="SELECT COUNT(*) AS rows FROM monthly_charts_data",
         follow_task_ids_if_true=[continue_workflow.task_id],
