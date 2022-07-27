@@ -50,11 +50,11 @@ with DAG(
             )
         """,
     )
-    clear = PostgresOperator(
-        task_id="clear",
-        postgres_conn_id="ml_conn",
-        sql=""" DELETE FROM monthly_charts_data""",
-    )
+    # clear = PostgresOperator(
+    #    task_id="clear",
+    #    postgres_conn_id="ml_conn",
+    #    sql=""" DELETE FROM monthly_charts_data""",
+    # )
     continue_workflow = DummyOperator(task_id="continue_workflow")
     branch = BranchSQLOperator(
         task_id="is empty",
@@ -67,4 +67,4 @@ with DAG(
     end_workflow = DummyOperator(task_id="end_workflow")
 
     start_workflow >> validate >> prepare >> branch
-    branch >> [clear, continue_workflow] >> load >> end_workflow
+    branch >> continue_workflow >> load >> end_workflow
