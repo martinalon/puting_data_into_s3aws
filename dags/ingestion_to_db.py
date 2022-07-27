@@ -60,7 +60,7 @@ with DAG(
         task_id="is empty",
         conn_id="ml_conn",
         sql="SELECT COUNT(*) AS rows FROM monthly_charts_data",
-        follow_task_ids_if_true=[clear.task_id],
+        # follow_task_ids_if_true=[clear.task_id],
         follow_task_ids_if_false=[continue_workflow.task_id],
     )
     load = PythonOperator(task_id="load", python_callable=ingest_data)
