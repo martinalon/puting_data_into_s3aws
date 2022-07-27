@@ -80,7 +80,12 @@ with DAG(
         python_callable=ingest_data,
         trigger_rule=TriggerRule.ONE_SUCCESS,
     )
+    view = PostgresOperator(
+        task_id="view",
+        postgres_conn_id="ml_conn",
+        sql="""SEELECT * FROM monthly_charts_data""",
+    )
     end_workflow = DummyOperator(task_id="end_workflow")
 
     start_workflow >> validate >> prepare >> branch
-    branch >> [clear, continue_workflow] >> load >> end_workflow
+    branch >> [clear, continue_workflow] >> load >> view >> end_workflow
