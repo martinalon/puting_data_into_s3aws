@@ -7,6 +7,7 @@ from airflow.operators.sql import BranchSQLOperator
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.providers.postgres.operators.postgres import PostgresOperator
 from airflow.utils.dates import days_ago
+from airflow.utils.trigger_rule import TriggerRule
 
 # with DAG("db_ingestion", start_date=datetime.date(2022, 1, 1)) as dag:
 #    start_workflow = DummyOperator(task_id="start_workflow")
@@ -63,7 +64,11 @@ with DAG(
         follow_task_ids_if_true=[clear.task_id],
         follow_task_ids_if_false=[continue_workflow.task_id],
     )
-    load = PythonOperator(task_id="load", python_callable=ingest_data)
+    load = PythonOperator(
+        task_id="load",
+        python_callable=ingest_data,
+        trigger_rule=TriggerRule.ONE_SUCCESS,
+    )
     end_workflow = DummyOperator(task_id="end_workflow")
 
     start_workflow >> validate >> prepare >> branch
