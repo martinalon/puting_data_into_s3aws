@@ -50,21 +50,21 @@ with DAG(
             )
         """,
     )
-    # clear = PostgresOperator(
-    #    task_id="clear",
-    #    postgres_conn_id="ml_conn",
-    #    sql=""" DELETE FROM monthly_charts_data""",
-    # )
+    clear = PostgresOperator(
+        task_id="clear",
+        postgres_conn_id="ml_conn",
+        sql="""DELETE FROM monthly_charts_data""",
+    )
     continue_workflow = DummyOperator(task_id="continue_workflow")
     branch = BranchSQLOperator(
         task_id="is_empty",
         conn_id="ml_conn",
         sql="SELECT COUNT(*) AS rows FROM monthly_charts_data",
-        follow_task_ids_if_true=[continue_workflow.task_id],
+        follow_task_ids_if_true=[clear.task_id],
         follow_task_ids_if_false=[continue_workflow.task_id],
     )
     load = PythonOperator(task_id="load", python_callable=ingest_data)
     end_workflow = DummyOperator(task_id="end_workflow")
 
     start_workflow >> validate >> prepare >> branch
-    branch >> continue_workflow >> load >> end_workflow
+    branch >> [clear, continue_workflow] >> load >> end_workflow
