@@ -83,7 +83,7 @@ with DAG(
     view = PostgresOperator(
         task_id="view",
         postgres_conn_id="ml_conn",
-        sql="""SEELECT * FROM monthly_charts_data""",
+        sql="""SELECT * FROM monthly_charts_data""",
     )
     end_workflow = DummyOperator(task_id="end_workflow")
 
