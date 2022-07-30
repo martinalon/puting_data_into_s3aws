@@ -29,7 +29,7 @@ def ingest_data():
         postgres_conn_id="rds_conn"
     )  # Aqui se pone el nombre de la conexxion para el postgres
     file = s3_hook.download_file(
-        key="datasets/user_purchase.csv",  # este es el pad del archivo que previamente tiene que estar en un s3
+        key="user_purchase.csv",  # este es el pad del archivo que previamente tiene que estar en un s3
         bucket_name="my-tf-test-bucket-el-martin",  # Este es el nombre del buquet que contiene a mis archivos csv
     )
     psql_hook.bulk_load(
@@ -45,7 +45,7 @@ with DAG(
         task_id="validate",
         aws_conn_id="aws_default",  # esta es la coneccion utilizada para el s3
         bucket_name="my-tf-test-bucket-el-martin",  # Nombre del bucket que contiene el archivo csv que convertire en una base de datos postgres
-        bucket_key="datasets/user_purchase.csv",  # este es el path del archivo csv dentro del bucket s3
+        bucket_key="user_purchase.csv",  # este es el path del archivo csv dentro del bucket s3
     )
     prepare = PostgresOperator(
         task_id="prepare",
