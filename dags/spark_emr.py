@@ -34,7 +34,7 @@ DEFAULT_ARGS = {
 SPARK_STEPS = [
     {
         "Name": "Classify movie reviews",
-        "ActionOnFailure": "CANCEL_AND_WAIT",
+        "ActionOnFailure": "CONTINUE",
         "HadoopJarStep": {
             "Jar": "command-runner.jar",
             "Args": [
