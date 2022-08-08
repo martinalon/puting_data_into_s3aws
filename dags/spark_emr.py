@@ -68,6 +68,7 @@ with DAG(
     schedule_interval="0 3 * * *",
     tags=["example"],
 ) as dag:
+    pip_task = BashOperator(task_id="pip_task", bash_command="pwd")
 
     # [START howto_operator_emr_manual_steps_tasks]
     cluster_creator = EmrCreateJobFlowOperator(
@@ -97,4 +98,10 @@ with DAG(
         aws_conn_id="aws_default",
     )
 
-    cluster_creator >> step_adder >> step_checker >> cluster_remover
+    (
+        pip_task
+        >> cluster_creator
+        >> step_adder
+        >> step_checker
+        >> cluster_remover
+    )
