@@ -36,7 +36,7 @@ SPARK_STEPS = [
         "ActionOnFailure": "CONTINUE",
         "HadoopJarStep": {
             "Jar": "command-runner.jar",
-            "Args": ["/usr/lib/spark/bin/run-example", "SparkPi", "10"],
+            "Args": ["/tmp/airflowtmpyci0hmcp/spark/xml.py"],
         },
     }
 ]
