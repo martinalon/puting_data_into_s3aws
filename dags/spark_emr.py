@@ -38,10 +38,10 @@ SPARK_STEPS = [
         "HadoopJarStep": {
             "Jar": "command-runner.jar",
             "Args": [
-                # "spark-submit",
-                # "--deploy-mode",
-                # "client",
-                "s3://martinflores-python-code-1/xml.py"
+                "spark-submit",
+                "--deploy-mode",
+                "client",
+                "s3://martinflores-python-code-1/xml.py",
             ],
         },
     },
