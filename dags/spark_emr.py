@@ -30,15 +30,21 @@ DEFAULT_ARGS = {
     "email_on_retry": False,
 }
 
+
 SPARK_STEPS = [
     {
-        "Name": "calculate_pi",
-        "ActionOnFailure": "CONTINUE",
+        "Name": "Classify movie reviews",
+        "ActionOnFailure": "CANCEL_AND_WAIT",
         "HadoopJarStep": {
             "Jar": "command-runner.jar",
-            "Args": ["/tmp/airflowtmpyci0hmcp/spark/xml.py"],
+            "Args": [
+                # "spark-submit",
+                # "--deploy-mode",
+                # "client",
+                "s3://martinflores-python-code-1/xml.py"
+            ],
         },
-    }
+    },
 ]
 
 JOB_FLOW_OVERRIDES = {
